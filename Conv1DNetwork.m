@@ -11,9 +11,10 @@ peakSNR = [];
 totalSNR = [];
 
 numClasses = 8;
-filterSize = 8; %function of sample rate?
+filterSize = 8;
 numfilters = 8;
 mEpochs = 10;
+folds=5;
 
 %% Load Data and Preprocess
 %Load Data
@@ -42,13 +43,6 @@ end
 %% Split into Train and Validation
 %Shuffle Data
 idx = randperm(size(data,1));
-% data_shuffle = data(idx);
-% order_shuffle = order(idx);
-% SNRdB_shuffle = SNRdB(idx);
-% labels_shuffle = labels(idx);
-% peakSNR_shuffle = peakSNR(idx);
-% totalSNR_shuffle = totalSNR(idx);
-folds=5;
 block = length(idx)/folds;
 
 train_idx(1,:) = idx(1:end-block);
@@ -99,26 +93,34 @@ layers = [...
 for kk=1:1:folds
     for ii=1:1:size(train_idx,2)
         X_Train{ii,1} = data{train_idx(kk,ii),1}';
+        X_Train_folds{ii,kk} = X_Train{ii,:};
     end
-    Y_Train = labels(train_idx(kk,:));
+    Y_Train(:,kk) = labels(train_idx(kk,:));
+    peakSNR_trainfolds(kk,:) = peakSNR(train_idx(kk,:));
+    totalSNR_trainfolds(kk,:) = totalSNR(train_idx(kk,:));
+
     for ii=1:1:size(val_idx,2)
         X_Val{ii,1} = data{val_idx(kk,ii),1}';
+        X_Val_folds{ii,kk} = X_Val{ii,:};
     end
-    Y_Val = labels(val_idx(kk,:));
-
+    Y_Val(:,kk) = labels(val_idx(kk,:));
+    peakSNR_valfolds(kk,:) = peakSNR(val_idx(kk,:));
+    totalSNR_valfolds(kk,:) = totalSNR(val_idx(kk,:));
+    
     options = trainingOptions('adam',...
         MiniBatchSize=48,...
-        MaxEpochs=mEpochs,...
+        MaxEpochs=1,...
         SequencePaddingDirection='left',...
-        ValidationData={X_Val,Y_Val},...
+        ValidationData={X_Val,Y_Val(:,kk)},...
         Plots='training-progress',...
         Shuffle='once',...
         ExecutionEnvironment='gpu',...
         Verbose=0);
-    
-    net(kk) = trainNetwork(X_Train,Y_Train,layers,options);
 
-    clearvars X_Train Y_Train X_Val Y_Val
+    [net(kk) info(kk)] = trainNetwork(X_Train,Y_Train(:,kk),layers,options);
+
+    % Save Network and Info
+
+
+    clearvars X_Train X_Val
 end
-
-%% Save Network

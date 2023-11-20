@@ -1,24 +1,24 @@
 %% Setup
-clearvars; close all; clc;
-trainDIR = 'C:\Users\cjbell\Desktop\ELE594_Data\8Classes\TrainingData\';
-N_tv = 8000; %Number of training data per case
-
-order = [];
-SNRdB = [];
-peakSNR = [];
-totalSNR = [];
-
-numClasses = 8;
-filterSize = 8; %function of sample rate?
-numfilters = 8;
-mEpochs = 10;
+% clearvars; close all; clc;
+% trainDIR = 'C:\Users\cjbell\Desktop\ELE594_Data\8Classes\TrainingData\';
+% N_tv = 8000; %Number of training data per case
+% 
+% order = [];
+% SNRdB = [];
+% peakSNR = [];
+% totalSNR = [];
+% 
+% numClasses = 8;
+% filterSize = 8; %function of sample rate?
+% numfilters = 8;
+% mEpochs = 10;
 
 %% Load Data and Preprocess
-%Load Data
-imds = imageDatastore(trainDIR,'IncludeSubfolders',true,'LabelSource','foldernames');
-labelCount = countEachLabel(imds)
-img = readimage(imds,1);
-image_size = size(img);
+% %Load Data
+% imds = imageDatastore(trainDIR,'IncludeSubfolders',true,'LabelSource','foldernames');
+% labelCount = countEachLabel(imds)
+% img = readimage(imds,1);
+% image_size = size(img);
 
 % for nn=1:1:numClasses
 %     temp_path = [trainDIR,'Case',num2str(nn)]; %Create Path for specific case
