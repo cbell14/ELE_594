@@ -41,5 +41,5 @@ Conv1DNetwork_Testing(N_tv,N_test,folds,numClasses,miniBatchSize,SNR_list,testDI
 %% Train 2DConv Network
 Conv2DNetwork(N_tv,numClasses,filterSize,numfilters,mEpochs,folds,miniBatchSize,trainDIR,outputDIR_2D)
 
-%% Test 1DConv Network
+%% Test 2DConv Network
 Conv2DNetwork_Testing(N_tv,N_test,folds,numClasses,miniBatchSize,SNR_list,testDIR,outputDIR_2D)

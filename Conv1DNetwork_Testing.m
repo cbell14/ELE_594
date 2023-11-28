@@ -92,7 +92,7 @@ for kk=1:1:folds
     plot(SNR_list,Acc_peakSNR(kk,:)*100,'-o','linewidth',2.5,'markersize',8)
     grid on;
     xlim([min(SNR_list)-0.5,max(SNR_list)+0.5])
-    xlabel('Total SNR, dB')
+    xlabel('Peak SNR, dB')
     ylim([0 100])
     ylabel('Accuracy, %')
     title(get(gcf,'Name'))
@@ -112,7 +112,7 @@ for kk=1:1:folds
         clearvars temp1 temp1_sum temp1_correct
     end
 
-    figure('Name','1DConv CNN Accuracy vs Peak SNR')
+    figure('Name','1DConv CNN Accuracy vs Total SNR')
     plot(totalSNR_vec,Acc_totalSNR(kk,:),'-o','linewidth',2.5,'markersize',8)
     grid on;
     xlim([min(totalSNR_vec)-0.5,max(totalSNR_vec)+0.5])
