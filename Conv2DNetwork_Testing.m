@@ -35,20 +35,6 @@ for nn=1:1:numClasses
 
     clearvars data_temp order_temp SNRdB_temp labels_temp labels2_temp peakSNR_temp toalSNR_temp
 end
-%% Preprocess
-% for nn=1:1:numClasses
-%     temp_path = [testDIR,'\Case',num2str(nn)]; %Create Path for specific case
-%     for ff=N_tv+1:1:(N_tv+N_test)
-%         temp = load([temp_path,'\Count',num2str(ff),'.mat']);
-%         labels2_temp(ff-N_tv,1) = nn;
-%     end
-% 
-%     labels2 = [labels2;labels2_temp];
-% 
-%     clearvars labels2_temp
-% end
-
-
 
 %% Make Predictions & Visualize Performance
 load([outputDIR,'2DConvNetwork.mat']);
